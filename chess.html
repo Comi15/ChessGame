@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+<title>Chess</title>
+<link rel="stylesheet" href="chess.css">
+</head>
+<body>
+<div class="container">
+    
+    <div class="container2">
+        <div class="letterBox">
+            <h2>8</h2>
+        </div>
+        <div class="letterBox">
+            <h2>7</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>6</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>5</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>4</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>3</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>2</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>1</h2>
+        </div>
+    </div>
+    <ul>
+
+        <h1>White's Turn</h1>
+        <div class="divv" id="row9">           
+            <li class="letterBox"><h2>A</h2></li>
+            <li class="letterBox"><h2>B</h2></li>
+            <li class="letterBox"><h2>C</h2></li>
+            <li class="letterBox"><h2>D</h2></li>
+            <li class="letterBox"><h2>E</h2></li>
+            <li class="letterBox"><h2>F</h2></li>
+            <li class="letterBox"><h2>G</h2></li>
+            <li class="letterBox"><h2>H</h2></li>
+        </div>
+        
+        <div class="divv" id="row8">           
+                  
+          <li class="box boxColor" id="b801">wRook</li>
+          <li class="box" id="b802">wKnight</li>
+          <li class="box boxColor" id="b803">wBishop</li>
+          <li class="box" id="b804">wKing</li>
+          <li class="box boxColor" id="b805">wQueen</li>
+          <li class="box" id="b806">wBishop</li>
+          <li class="box boxColor" id="b807">wKnight</li>
+          <li class="box" id="b808">wRook</li>
+          
+        </div>
+
+        <div class="divv" id="row7">
+                
+          <li class="box" id="b701">wPawn</li>
+          <li class="box boxColor" id="b702">wPawn</li>
+          <li class="box" id="b703">wPawn</li>
+          <li class="box boxColor" id="b704">wPawn</li>
+          <li class="box" id="b705">wPawn</li>
+          <li class="box boxColor" id="b706">wPawn</li>
+          <li class="box" id="b707">wPawn</li>
+          <li class="box boxColor" id="b708">wPawn</li>
+        </div>
+
+        <div class="divv" id="row6">   
+            <li class="box boxColor" id="b601"></li>
+            <li class="box" id="b602"></li>
+            <li class="box boxColor" id="b603"></li>
+            <li class="box" id="b604"></li>
+            <li class="box boxColor" id="b605"></li>
+            <li class="box" id="b606"></li>
+            <li class="box boxColor" id="b607"></li>
+            <li class="box" id="b608"></li>
+        </div>
+
+        <div class="divv" id="row5">   
+            <li class="box" id="b501"></li>
+            <li class="box boxColor" id="b502"></li>
+            <li class="box" id="b503"></li>
+            <li class="box boxColor" id="b504"></li>
+            <li class="box" id="b505"></li>
+            <li class="box boxColor" id="b506"></li>
+            <li class="box" id="b507"></li>
+            <li class="box boxColor" id="b508"></li>
+        </div>
+
+        <div class="divv" id="row4">   
+            <li class="box boxColor" id="b401"></li>
+            <li class="box" id="b402"></li>
+            <li class="box boxColor" id="b403"></li>
+            <li class="box" id="b404"></li>
+            <li class="box boxColor" id="b405"></li>
+            <li class="box" id="b406"></li>
+            <li class="box boxColor" id="b407"></li>
+            <li class="box" id="b408"></li>
+        </div>
+
+        <div class="divv" id="row3">   
+            <li class="box" id="b301"></li>
+            <li class="box boxColor" id="b302"></li>
+            <li class="box" id="b303"></li>
+            <li class="box boxColor" id="b304"></li>
+            <li class="box" id="b305"></li>
+            <li class="box boxColor" id="b306"></li>
+            <li class="box" id="b307"></li>
+            <li class="box boxColor" id="b308"></li>
+        </div>
+
+        <div class="divv"id="row2">   
+            <li class="box boxColor" id="b201">bPawn</li>
+            <li class="box" id="b202">bPawn</li>
+            <li class="box boxColor" id="b203">bPawn</li>
+            <li class="box" id="b204">bPawn</li>
+            <li class="box boxColor" id="b205">bPawn</li>
+            <li class="box" id="b206">bPawn</li>
+            <li class="box boxColor" id="b207">bPawn</li>
+            <li class="box" id="b208">bPawn</li>
+        </div>
+        
+        <div class="divv" id="row1">           
+            <li class="box" id="b101">bRook</li>
+            <li class="box boxColor" id="b102">bKnight</li>
+            <li class="box" id="b103">bBishop</li>
+            <li class="box boxColor" id="b104">bKing</li>
+            <li class="box" id="b105">bQueen</li>
+            <li class="box boxColor" id="b106">bBishop</li>
+            <li class="box" id="b107">bKnight</li>
+            <li class="box boxColor" id="b108">bRook</li>
+        </div>
+
+        <div class="divv" id="row0">           
+            <li class="letterBox"><h2>A</h2></li>
+            <li class="letterBox"><h2>B</h2></li>
+            <li class="letterBox"><h2>C</h2></li>
+            <li class="letterBox"><h2>D</h2></li>
+            <li class="letterBox"><h2>E</h2></li>
+            <li class="letterBox"><h2>F</h2></li>
+            <li class="letterBox"><h2>G</h2></li>
+            <li class="letterBox"><h2>H</h2></li>
+        </div>
+
+        
+    </ul>
+
+    <div class="container2">
+        <div class="letterBox">
+            <h2>8</h2>
+        </div>
+        <div class="letterBox">
+            <h2>7</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>6</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>5</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>4</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>3</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>2</h2>
+        </div>
+
+        <div class="letterBox">
+            <h2>1</h2>
+        </div>
+    </div>
+</div>
+  <script src="chess.js"></script> 
+ 
+</body>

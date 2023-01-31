@@ -1,0 +1,91 @@
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.container
+{
+    background-color: rgb(147, 133, 161);
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    height: 100vh;
+    gap:0px;
+   
+}
+
+.container2
+{
+    background-color: rgb(147, 133, 161);
+    display: flex;
+    justify-content: center;    
+    height: 100vh;
+    flex-direction: column;
+}
+ul
+{
+    display: grid;
+    grid-template-columns: 1fr;
+    place-content: center;
+}
+.divv
+{  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+    
+}
+.box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:rgb(42, 42, 51);
+    height:clamp(50px,5vw,80px);
+    width: clamp(50px,5vw,80px);
+    border: 1px solid rgb(252, 252, 252);
+    background-color: rgb(80, 43, 9);
+    
+   
+}
+
+.boxColor
+{
+    background-color: rgb(209, 188, 142);
+}
+
+.letterBox
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:rgb(42, 42, 51);
+    height:clamp(50px,5vw,80px);
+    width: clamp(50px,5vw,80px);
+    font-size: 1vw;
+   
+}
+
+
+
+li
+{
+    list-style-type: none;
+    font-size: 0px;
+}
+
+.img
+{
+    object-fit: contain;
+    mix-blend-mode: color-burn;
+    width: 3vw;
+}
+
+h1
+{
+    justify-self: center;
+    color: white;
+}
+
