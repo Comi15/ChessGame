@@ -47,6 +47,7 @@ ul
     width: clamp(50px,5vw,80px);
     border: 1px solid rgb(252, 252, 252);
     background-color: rgb(80, 43, 9);
+    cursor: pointer;
     
    
 }
