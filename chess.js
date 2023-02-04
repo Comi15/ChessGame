@@ -1,7 +1,7 @@
 function insertImgPiece()
 {
     document.querySelectorAll('.box').forEach(img=>{
-
+        
         if(img.innerText.length !== 0)
         {
             img.innerHTML = `${img.innerText} <img class='img' src="${img.innerText}.png" alt="">`
@@ -91,30 +91,28 @@ function checkTurn()
 
 }
 
-//Function that shows where the pieces can move
+
+//Function that shows where the pieces can move and moves them
 function pieceMovement(toggle)
 {
+     
+    console.log('Toggle : ' + toggle)
     var text;
     var rowId;
     var rowIdTemp;
+    var columnIdTemp;
     var columnId;
     var id;
+    var counterClc = 0
+    
     var item = document.querySelectorAll('.box').forEach(item=>{
         
             
 
         item.addEventListener('click',function(){
              id = item.id;
-
-             if(item.innerText != '')
-             {
-                document.querySelectorAll('.box').forEach(item3=>{
-                   if(id != item3.id && item3.innerText != '')
-                   {
-                       item3.style.backgroundColor = 'rgb(90, 6, 6)'
-                   }
-                })
-             }
+               
+             
             for(let i = 0;i<matrix.length;i++)
             {
                 var innerArrayLength = matrix[i].length;
@@ -125,6 +123,7 @@ function pieceMovement(toggle)
                     {
                         rowId = i;
                         rowIdTemp = i;
+                        columnIdTemp = j
                         columnId = j;
                         console.log(i,j)
                     }
@@ -133,32 +132,68 @@ function pieceMovement(toggle)
                 }
             }
             text = new String(item.innerText)
+            firstLetter = text.substring(0,1)
+            console.log("First letter is : " + firstLetter)
             console.log(id);
             console.log(text)
             if(text != '')
             {
-
-                if(toggle == 'w')
-                {
+                
+              
+                    
                     //Movement for the white player pawns
-                    if(text == 'wPawn' && document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).innerText =='')
+                    if(text == 'wPawn')
                     {
 
+                       console.log("Usao u if whitePawn")
                         if(rowId == 1 && document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).innerText =='')
-                        {
-                            document.getElementById(`${matrix[rowId+=1][columnId]}`).style.backgroundColor = 'green'
-                            document.getElementById(`${matrix[rowId+=1][columnId]}`).style.backgroundColor = 'green'                                              
+                        {                           
+                            document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
+                            document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).style.backgroundColor = 'green'
+                            rowIdTemp-=2
+                                                                    
 
                         }
-
-                        else
+                            
+                        if(rowId != 7)
                         {
-                            document.getElementById(`${matrix[rowId+=1][columnId]}`).style.backgroundColor = 'green'
+                            if(rowId!=1 && document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).innerText =='') 
+                            {                          
+                                document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
+
+
+                            }
                         }
+
+                        rowIdTemp-=1
+                        //White pawn eat pattern                       
+                        if(columnId != 7 && rowId!=7)
+                        {
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '')
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp-=1
+                             columnIdTemp-=1
+                        }
+                       
+                        
+                        if(columnId != 0 && rowId != 7)
+                        {
+
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' )
+                            {
+                                
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            columnIdTemp+=1
+                            rowIdTemp-=1
+                        }
+                       
                     }
 
 
-                    else  if(text == 'wKnight')
+                      if(text == 'wKnight')
                     {
                         //forward for the white
                         if(columnId != 0)
@@ -187,13 +222,16 @@ function pieceMovement(toggle)
                         // back for the white
                         document.getElementById(`${matrix[rowId-=2][columnId-=1]}`).style.backgroundColor = 'green'
                         rowId +=2
-                        columndId +=1
+                        columnId +=1
                         }
 
                         if(rowId != 0 && columnId == 0)
                         {
                         document.getElementById(`${matrix[rowId+=1][columnId+=2]}`).style.backgroundColor = 'green'
                             rowId -= 1
+                            columnId -= 2
+                            document.getElementById(`${matrix[rowId-=1][columnId+=2]}`).style.backgroundColor = 'green'
+                            rowId += 1
                             columnId -= 2
                         }
 
@@ -202,34 +240,67 @@ function pieceMovement(toggle)
                         document.getElementById(`${matrix[rowId+=1][columnId-=2]}`).style.backgroundColor = 'green'
                         rowId -= 1
                         columnId += 2
+                        document.getElementById(`${matrix[rowId-=1][columnId-=2]}`).style.backgroundColor = 'green'
+                        rowId += 1
+                        columnId += 2
                         }
+
+                        
 
                     }
 
 
-                }
+                
 
                 
                 //Movement for the black player pawns
 
-                else if(toggle == 'b')
-                {
-                     if (text == 'bPawn' && document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).innerText =='')
+                   
+                     if (text == 'bPawn' )
                     {
 
                         if(rowId == 6 && document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).innerText =='')
                         {
-                            document.getElementById(`${matrix[rowId-=1][columnId]}`).style.backgroundColor = 'green'
-                            document.getElementById(`${matrix[rowId-=1][columnId]}`).style.backgroundColor = 'green'
+                            document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
+                            document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).style.backgroundColor = 'green'
+                            rowIdTemp+=2
                         }
 
-                        else
+                        if(rowId != 0)
                         {
-                            document.getElementById(`${matrix[rowId-=1][columnId]}`).style.backgroundColor = 'green'
+                             if(rowId != 6 && document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).innerText =='' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
 
+                            }
                         }
+                        rowIdTemp+=1
+                        //Black pawn eating pattern
+                        if(columnId != 7 && rowId != 0)
+                        {
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '')
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp+=1
+                            columnIdTemp-=1
+                        }
+                        
+                        
+                        if(columnId != 0 && rowId != 0)
+                        {
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '')
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            columnIdTemp+=1
+                            rowIdTemp+=1
+                        }
+
+                        
+                        
                     }
-                }
+               
 
                          
             }
@@ -237,16 +308,17 @@ function pieceMovement(toggle)
             {
                 console.log('break')
                
-               
             }
            
         })
         
         //code for moving the piece
         document.querySelectorAll('.box').forEach(item2=>{
-            item2.addEventListener('click',function(){
-                if(item2.style.backgroundColor == 'green' && item2.innerText == '')
+            item2.addEventListener('click',function(){                                                         
+                
+                if(item2.style.backgroundColor == 'green')
                 {
+                                                              
                     var audio = document.getElementById('audio');
                     audio.play()
                     document.getElementById(id).innerText = ''
@@ -254,21 +326,20 @@ function pieceMovement(toggle)
                     insertImgPiece()
                     coloring()
                     moveCount += 1
-                    document.getElementById('event').innerText += 'sadsa'
-                    
-                                                                                                   
+                                    
+                                                                                                                     
                    
                 }
+
                 
-            })
-           
+            })           
                     
         })
         
     });
     
     
-        
+         
 }
 
 
@@ -276,24 +347,19 @@ function pieceMovement(toggle)
 
 
  
- checkTurn()   
+ checkTurn()
+    
 
-
-//Preventing from selecting multiple elements
+// Prvents from selecting multiple elements
 z = 0
 document.querySelectorAll('.box').forEach(ee => {
     ee.addEventListener('click', function () {
         z = z + 1
-        if (z % 2 == 0 && ee.style.backgroundColor !== 'green') {
+        console.log('Ovo je : ' + z)
+        if (z % 2 == 0) {
             coloring()
+            
         }
     })
 })
 
-
-
-
-
-
-console.log(moveCount)
-console.log(matrix)
