@@ -16,7 +16,7 @@ insertImgPiece();
 
 function coloring() {
     const color = document.querySelectorAll('.box')
-
+    console.log("Usao u coloring")
     color.forEach(color => {
 
         getId = color.id
@@ -67,49 +67,28 @@ for (var i = 0; i<8;i++)
 
 //turn counter
 var moveCount = 1
-function checkTurn()
-{
-    if(moveCount %2 != 0)
-    {
-        tog = document.getElementById('tog');
-        tog.innerText = "White's turn"
-        tog.style.color = "white"
-        console.log("Usao u muv kaunt if")
-        pieceMovement('w')
-        
-    }
 
-    if(moveCount %2 == 0)
-    {
-        tog = document.getElementById('tog');
-        tog.innerText = "Black's turn"
-        tog.style.color = "black"
-        console.log('Usao u muv kaunt crni if')
-        pieceMovement('b')
-        
-    }
-
-}
 
 
 //Function that shows where the pieces can move and moves them
-function pieceMovement(toggle)
+function pieceMovement()
 {
-     
-    console.log('Toggle : ' + toggle)
+   
+    
+    var toggle = 'w';
     var text;
     var rowId;
     var rowIdTemp;
     var columnIdTemp;
     var columnId;
     var id;
-    var counterClc = 0
+    
     
     var item = document.querySelectorAll('.box').forEach(item=>{
         
             
 
-        item.addEventListener('click',function(){
+             item.addEventListener('click',function(e){
              id = item.id;
                
              
@@ -136,36 +115,45 @@ function pieceMovement(toggle)
             console.log("First letter is : " + firstLetter)
             console.log(id);
             console.log(text)
+
+            
             if(text != '')
             {
-                
-              
-                    
-                    //Movement for the white player pawns
-                    if(text == 'wPawn')
+                                            
+                   //Movement for the white player pawns
+                    if(text == 'wPawn' && toggle == 'w')
                     {
 
                        console.log("Usao u if whitePawn")
-                        if(rowId == 1 && document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).innerText =='')
+                        if(rowId == 1 && document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).innerText == '' )
                         {                           
-                            document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
-                            document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).style.backgroundColor = 'green'
+                            document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'                           
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).innerText == '')
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
+                                
+                            }
+                                                                                              
                             rowIdTemp-=2
-                                                                    
-
                         }
-                            
-                        if(rowId != 7)
+                        
+                        
+                     else if(rowId != 1)
                         {
                             if(rowId!=1 && document.getElementById(`${matrix[rowIdTemp+=1][columnId]}`).innerText =='') 
                             {                          
                                 document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
-
+                                
 
                             }
-                        }
 
-                        rowIdTemp-=1
+                            rowIdTemp-=1
+                        }
+                        
+                     else
+                     {
+                         rowIdTemp -= 1
+                     }                        
                         //White pawn eat pattern                       
                         if(columnId != 7 && rowId!=7)
                         {
@@ -174,10 +162,10 @@ function pieceMovement(toggle)
                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
                              }
                              rowIdTemp-=1
-                             columnIdTemp-=1
+                            columnIdTemp-=1
                         }
                        
-                        
+                            
                         if(columnId != 0 && rowId != 7)
                         {
 
@@ -189,92 +177,747 @@ function pieceMovement(toggle)
                             columnIdTemp+=1
                             rowIdTemp-=1
                         }
-                       
-                    }
-
-
-                      if(text == 'wKnight')
-                    {
-                        //forward for the white
-                        if(columnId != 0)
-                        {
-                        document.getElementById(`${matrix[rowId+=2][columnId-=1]}`).style.backgroundColor = 'green'
-                        rowId -=2
-                        columnId += 1
-                        }
-                        //forward for the white
-                        if(columnId != 7)
-                        {
-                        document.getElementById(`${matrix[rowId+=2][columnId+=1]}`).style.backgroundColor = 'green'
-                        rowId -=2
-                        columnId -= 1
-                        }    
-                        if(rowId != 0 && columnId != 7)
-                        {
-                        // back for the white
-                        document.getElementById(`${matrix[rowId-=2][columnId+=1]}`).style.backgroundColor = 'green'
-                        rowId +=2
-                        columnId -= 1
-                        }
-
-                        if(rowId != 0 && columnId != 0)
-                        {
-                        // back for the white
-                        document.getElementById(`${matrix[rowId-=2][columnId-=1]}`).style.backgroundColor = 'green'
-                        rowId +=2
-                        columnId +=1
-                        }
-
-                        if(rowId != 0 && columnId == 0)
-                        {
-                        document.getElementById(`${matrix[rowId+=1][columnId+=2]}`).style.backgroundColor = 'green'
-                            rowId -= 1
-                            columnId -= 2
-                            document.getElementById(`${matrix[rowId-=1][columnId+=2]}`).style.backgroundColor = 'green'
-                            rowId += 1
-                            columnId -= 2
-                        }
-
-                        if(rowId != 0 && columnId == 7)
-                        {
-                        document.getElementById(`${matrix[rowId+=1][columnId-=2]}`).style.backgroundColor = 'green'
-                        rowId -= 1
-                        columnId += 2
-                        document.getElementById(`${matrix[rowId-=1][columnId-=2]}`).style.backgroundColor = 'green'
-                        rowId += 1
-                        columnId += 2
-                        }
-
                         
-
                     }
 
+                    //knights movement logic
+                      if(text == 'wKnight' && toggle == 'w' || text == 'bKnight' && toggle == 'b')
+                    {
+                      
+                        if(rowId > 1 && rowId < 6 && columnId > 1 && columnId < 6)
+                        {
+                            // + 1 row two columns right jump
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp -= 1
+                            columnIdTemp -= 2
+                            // + 1 row two columns left jump
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
 
-                
+                            rowIdTemp -= 1
+                            columnIdTemp += 2
+                            // + 2 rows 1 column jump right
+                            if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
 
-                
+                            rowIdTemp -= 2
+                            columnIdTemp -= 1
+                            // + 2 rows 1 column jump left
+                            if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+
+                            rowIdTemp -= 2
+                            columnIdTemp += 1
+
+                            // - 1 row 2 columns jump right
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 1
+                            columnIdTemp -= 2
+
+                            // - 1 row 2 columns jump left
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 1
+                            columnIdTemp += 2
+
+                            // - 2 rows 1 column jump right
+                            if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 2
+                            columnIdTemp -= 1
+
+                            // - 2 rows 1 column jump left
+                            if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 2
+                            columnIdTemp += 1
+
+                        }
+
+
+                        if(rowId == 0 && columnId == 6)
+                        {
+                             
+                               // + 1 row two columns left jump
+                              if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                              {
+                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                              }
+  
+                              rowIdTemp -= 1
+                              columnIdTemp += 2
+                              // + 2 rows 1 column jump right
+                              if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                              {
+                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                              }
+  
+                              rowIdTemp -= 2
+                              columnIdTemp -= 1
+                              // + 2 rows 1 column jump left
+                              if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                              {
+                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                              }
+  
+                              rowIdTemp -= 2
+                              columnIdTemp += 1
+                        }
+
+                        if(rowId == 0 && columnId == 1)
+                        {
+                             // + 1 row two columns right jump
+                             if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp -= 1
+                             columnIdTemp -= 2
+
+                             // + 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp -= 1
+                             // + 2 rows 1 column jump left
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp += 1
+
+                        }
+
+                        if(rowId == 1 && columnId > 1 && columnId < 6)
+                        {
+                            // + 1 row two columns right jump
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp -= 1
+                            columnIdTemp -= 2
+                            // + 1 row two columns left jump
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+
+                            rowIdTemp -= 1
+                            columnIdTemp += 2
+                            // + 2 rows 1 column jump right
+                            if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+
+                            rowIdTemp -= 2
+                            columnIdTemp -= 1
+                            // + 2 rows 1 column jump left
+                            if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+
+                            rowIdTemp -= 2
+                            columnIdTemp += 1
+
+                             // - 1 row 2 columns jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 1
+                             columnIdTemp -= 2
+ 
+                             // - 1 row 2 columns jump left
+                             if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 1
+                             columnIdTemp += 2
+                        }
+
+                        if(rowId == 7 && columnId == 1)
+                        {
+                             // - 1 row 2 columns jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 1
+                             columnIdTemp -= 2
+                              
+                             // - 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 2
+                             columnIdTemp -= 1
+ 
+                             // - 2 rows 1 column jump left
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 2
+                             columnIdTemp += 1
+                        }
+
+                        if(rowId == 7 && columnId == 6)
+                        {
+                             
+                              // - 1 row 2 columns jump left
+                              if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                              {
+                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                              }
+                              rowIdTemp += 1
+                              columnIdTemp += 2
+  
+                              // - 2 rows 1 column jump right
+                              if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                              {
+                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                              }
+                              rowIdTemp += 2
+                              columnIdTemp -= 1
+  
+                              // - 2 rows 1 column jump left
+                              if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                              {
+                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                              }
+                              rowIdTemp += 2
+                              columnIdTemp += 1
+                        }
+
+                        if(rowId == 6 && columnId > 1 && columnId < 6)
+                        {
+                            // - 1 row 2 columns jump right
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 1
+                            columnIdTemp -= 2
+
+                            // - 1 row 2 columns jump left
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 1
+                            columnIdTemp += 2
+
+                            // - 2 rows 1 column jump right
+                            if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 2
+                            columnIdTemp -= 1
+
+                            // - 2 rows 1 column jump left
+                            if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 2
+                            columnIdTemp += 1
+
+
+                             // + 1 row two columns right jump
+                             if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp -= 1
+                             columnIdTemp -= 2
+                             // + 1 row two columns left jump
+                             if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 1
+                             columnIdTemp += 2
+                        }
+
+                        if(rowId == 0 && columnId == 0)
+                        {
+                             // + 1 row two columns right jump
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp -= 1
+                            columnIdTemp -= 2
+                            
+                             // + 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp -= 1
+                        }
+
+                        if(columnId == 1 && rowId > 1 && rowId < 6)
+                        {
+                             // + 1 row two columns right jump
+                             if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp -= 1
+                             columnIdTemp -= 2
+                        
+                             // + 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp -= 1
+                             // + 2 rows 1 column jump left
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp += 1
+ 
+                             // - 1 row 2 columns jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 1
+                             columnIdTemp -= 2
+ 
+                           
+ 
+                             // - 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 2
+                             columnIdTemp -= 1
+ 
+                             // - 2 rows 1 column jump left
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 2
+                             columnIdTemp += 1
+                        }
+
+
+                        if(columnId == 6 && rowId > 1 && rowId < 6)
+                        {
+                            
+                             // + 1 row two columns left jump
+                             if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 1
+                             columnIdTemp += 2
+                             // + 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp -= 1
+                             // + 2 rows 1 column jump left
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp += 1
+ 
+                             
+ 
+                             // - 1 row 2 columns jump left
+                             if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 1
+                             columnIdTemp += 2
+ 
+                             // - 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 2
+                             columnIdTemp -= 1
+ 
+                             // - 2 rows 1 column jump left
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 2
+                             columnIdTemp += 1
+                        }
+
+                        if(rowId == 0 && columnId == 7)
+                        {
+                             // + 1 row two columns left jump
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp -= 1
+                            columnIdTemp += 2
+                            
+                             // + 2 rows 1 column left right
+                             if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp -= 2
+                             columnIdTemp += 1
+                        }
+
+                        if(rowId == 7 && columnId == 7)
+                        {
+                             // - 1 row two columns left jump
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 1
+                            columnIdTemp += 2
+                            
+                             // - 2 rows 1 column left right
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp += 2
+                             columnIdTemp += 1
+                        }
+
+                        if(rowId == 7 && columnId == 0)
+                        {
+                             // - 1 row two columns right jump
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 1
+                            columnIdTemp -= 2
+                            
+                             // - 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp += 2
+                             columnIdTemp -= 1
+                        }
+
+                        if(columnId == 0 && rowId > 1 && rowId < 6)
+                        {
+                             // + 1 row two columns right jump
+                             if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp -= 1
+                             columnIdTemp -= 2
+
+                              // + 2 rows 1 column jump right
+                            if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+
+                            rowIdTemp -= 2
+                            columnIdTemp -= 1
+
+                              // - 1 row two columns right jump
+                              if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                              {
+                                  document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                              }
+                              rowIdTemp += 1
+                              columnIdTemp -= 2
+
+                               // - 2 rows 1 column jump right
+                             if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+ 
+                             rowIdTemp += 2
+                             columnIdTemp -= 1
+                        }
+
+                        if(columnId == 7 && rowId > 1 && rowId < 6)
+                        {
+                            // + 1 row two columns left jump
+                            if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp -= 1
+                            columnIdTemp += 2
+
+                             // + 2 rows 1 column left right
+                           if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                           {
+                               document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                           }
+
+                           rowIdTemp -= 2
+                           columnIdTemp += 1
+
+                             // - 1 row two columns left jump
+                             if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                             {
+                                 document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                             }
+                             rowIdTemp += 1
+                             columnIdTemp += 2
+
+                              // - 2 rows 1 column jump left
+                            if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                            }
+
+                            rowIdTemp += 2
+                            columnIdTemp += 1
+                        }
+
+                        if(columnId == 1 && rowId == 1)
+                        {
+                               // + 2 rows 1 column jump left
+                               if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                               {
+                                   document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                               }
+   
+                               rowIdTemp -= 2
+                               columnIdTemp += 1
+
+                                // + 2 rows 1 column jump right
+                                if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+    
+                                rowIdTemp -= 2
+                                columnIdTemp -= 1
+
+                                  // +1 row two columns right jump
+                                if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp -= 1
+                                columnIdTemp -= 2
+
+                                // - 1 row two columns right jump
+                                if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp += 1
+                                columnIdTemp -= 2
+                        }
+
+                        if(columnId == 6 && rowId == 1)
+                        {
+                               // + 2 rows 1 column jump left
+                               if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                               {
+                                   document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                               }
+   
+                               rowIdTemp -= 2
+                               columnIdTemp += 1
+
+                                // + 2 rows 1 column jump right
+                                if(document.getElementById(`${matrix[rowIdTemp+=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+    
+                                rowIdTemp -= 2
+                                columnIdTemp -= 1
+
+                                  // +1 row two columns right jump
+                                if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp -= 1
+                                columnIdTemp += 2
+
+                                // - 1 row two columns left jump
+                                if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp += 1
+                                columnIdTemp += 2
+                        }
+
+
+                        if(columnId == 6 && rowId == 6)
+                        {
+                               // - 2 rows 1 column jump left
+                               if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                               {
+                                   document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                               }
+   
+                               rowIdTemp += 2
+                               columnIdTemp += 1
+
+                                // - 2 rows 1 column jump right
+                                if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+    
+                                rowIdTemp += 2
+                                columnIdTemp -= 1
+
+                                  // -1 row two columns right jump
+                                if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp += 1
+                                columnIdTemp += 2
+
+                                // + 1 row two columns left jump
+                                if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp-=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp -= 1
+                                columnIdTemp += 2
+                        }
+
+
+                        if(columnId == 1 && rowId == 6)
+                        {
+                               // - 2 rows 1 column jump left
+                               if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp-=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                               {
+                                   document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                               }
+   
+                               rowIdTemp += 2
+                               columnIdTemp += 1
+
+                                // - 2 rows 1 column jump right
+                                if(document.getElementById(`${matrix[rowIdTemp-=2][columnIdTemp+=1]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+    
+                                rowIdTemp += 2
+                                columnIdTemp -= 1
+
+                                  // -1 row two columns right jump
+                                if(document.getElementById(`${matrix[rowIdTemp-=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp += 1
+                                columnIdTemp -= 2
+
+                                // + 1 row two columns right jump
+                                if(document.getElementById(`${matrix[rowIdTemp+=1][columnIdTemp+=2]}`).innerText[0] != firstLetter && document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText != '' ||document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).innerText == '' )
+                                {
+                                    document.getElementById(`${matrix[rowIdTemp][columnIdTemp]}`).style.backgroundColor = 'green'
+                                }
+                                rowIdTemp -= 1
+                                columnIdTemp -= 2
+                        }
+
+
+                    }
+               
+               
                 //Movement for the black player pawns
 
                    
-                     if (text == 'bPawn' )
+                     if (text == 'bPawn' && toggle == 'b' )
                     {
 
                         if(rowId == 6 && document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).innerText =='')
                         {
                             document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
-                            document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).style.backgroundColor = 'green'
-                            rowIdTemp+=2
+                            if(document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).innerText == '')
+                            {
+                                document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
+                            }
+                            rowIdTemp += 2
                         }
 
-                        if(rowId != 0)
+                        else if(rowId != 6)
                         {
-                             if(rowId != 6 && document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).innerText =='' )
+                             if( document.getElementById(`${matrix[rowIdTemp-=1][columnId]}`).innerText =='' )
                             {
                                 document.getElementById(`${matrix[rowIdTemp][columnId]}`).style.backgroundColor = 'green'
 
                             }
+                            rowIdTemp += 1
                         }
-                        rowIdTemp+=1
+
+                        else
+                        {
+                            rowIdTemp += 1
+                        }
+                        
                         //Black pawn eating pattern
                         if(columnId != 7 && rowId != 0)
                         {
@@ -326,9 +969,28 @@ function pieceMovement(toggle)
                     insertImgPiece()
                     coloring()
                     moveCount += 1
-                                    
-                                                                                                                     
-                   
+                    if(moveCount %2 != 0)
+                    {
+                        tog = document.getElementById('tog');
+                        tog.innerText = "White's turn"
+                        tog.style.color = "white"
+                        console.log("Usao u muv kaunt if")
+                        toggle = 'w'
+                       
+                        
+                    }
+                
+                    if(moveCount %2 == 0)
+                    {
+                        tog = document.getElementById('tog');
+                        tog.innerText = "Black's turn"
+                        tog.style.color = "black"
+                        console.log('Usao u muv kaunt crni if')
+                        toggle = 'b'
+                                                
+                    }
+                                      
+                                                                                                                                                                                                                 
                 }
 
                 
@@ -343,11 +1005,11 @@ function pieceMovement(toggle)
 }
 
 
-
-
+//main function of the program call
+pieceMovement()
 
  
- checkTurn()
+
     
 
 // Prvents from selecting multiple elements
@@ -357,7 +1019,9 @@ document.querySelectorAll('.box').forEach(ee => {
         z = z + 1
         console.log('Ovo je : ' + z)
         if (z % 2 == 0) {
+            z = 0
             coloring()
+           
             
         }
     })
